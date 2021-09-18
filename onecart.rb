@@ -7,8 +7,8 @@ def download_response_csv
   respond_to do |format|
   format.csv do
   send_data(
-	generate_csv_data(variant_ids),
-	filename: "Responses.csv"
+    generate_csv_data(variant_ids),
+    filename: "Responses.csv"
   )
   end
 end
