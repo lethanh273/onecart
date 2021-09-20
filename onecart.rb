@@ -1,5 +1,5 @@
 # for 1 
-Order.where(‘order_date BETWEEN ? AND ?', date_from, date_to).group(:zip_code).pluck(zip_code, count(zip_code))
+Order.where(‘order_date BETWEEN ? AND ?', date_from, date_to).group(:zip_code).pluck(:zip_code, count(:zip_code))
 
 # for 2
 def download_response_csv
@@ -15,7 +15,7 @@ end
 
 def generate_csv_data(variant_ids)
   # build headings
-  shop_platform_headings = Variant.joins(:link, :shop).where(variant_id: variant_ids).group(link.platform, link.shop_name).select('link.platform, shop.shop_name').to_a.uniq.map { |t| t.join(':')}
+  shop_platform_headings = Variant.joins(:link, :shop).where(variant_id: variant_ids).group("link.platform, link.shop_name").select('link.platform, shop.shop_name').to_a.uniq.map { |t| t.join(':')}
   csv_headings = ["SKU", "Quantity", shop_platform_headings].flatten
   CSV.generate do |csv|
     csv << csv_headings
